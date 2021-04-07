@@ -1,16 +1,15 @@
+#variables
 turn=0
-
 playerx=5
 playery=5
-
 enemyx=0
 enemyy=0
-
 distx=0
 disty=0
-
 screenx=0
 screeny=0
+
+#main loop
 while true;
   do
     #echo "($playerx,$playery)";
@@ -33,7 +32,16 @@ while true;
     let screeny=enemyy+3
     echo -n -e "\033["$screeny";"$screenx"H\033[0;31mX\033[0m"
     echo -n -e "\033[14;0H"
-
+    
+    #test for lose
+    if [ "$playerx" == "$enemyx" ]; then
+      if [ "$playery" == "$enemyy" ]; then
+        echo Game over
+        sleep 2s
+        break
+      fi
+    fi
+    
     #take user input
     read -n 1 -s action
     if [ "$action" == "s" ]; then
@@ -63,6 +71,7 @@ while true;
       turn=1
       let distx=playerx-enemyx
       let disty=playery-enemyy
+      #get absolute values
       if (( ${distx##*[+-]} >= ${disty##*[+-]} )); then
         if (( $playerx > $enemyx)); then
           let enemyx enemyx++
@@ -80,3 +89,4 @@ while true;
       turn=0
     fi
   done
+
