@@ -1,9 +1,13 @@
+turn=0
+
 playerx=5
 playery=5
 
 enemyx=0
 enemyy=0
 
+distx=0
+disty=0
 
 screenx=0
 screeny=0
@@ -55,13 +59,24 @@ while true;
     fi
     
     #make enemy move
-    if (( $playery > $enemyy)); then
-      let enemyy enemyy++
-    elif (( $playery < $enemyy )); then
-      let enemyy enemyy--
-    elif (( $playerx > $enemyx)); then
-      let enemyx enemyx++
-    elif (( $playerx < $enemyx )); then
-      let enemyx enemyx--
+    if (( "$turn" == "0" )); then
+      turn=1
+      let distx=playerx-enemyx
+      let disty=playery-enemyy
+      if(( $distx >= $disty )); then
+        if (( $playerx > $enemyx)); then
+          let enemyx enemyx++
+        elif (( $playerx < $enemyx )); then
+          let enemyx enemyx--
+        fi
+      else
+        if (( $playery > $enemyy)); then
+          let enemyy enemyy++
+        elif (( $playery < $enemyy )); then
+          let enemyy enemyy--
+        fi
+      fi
+    else
+      turn=0
     fi
   done
