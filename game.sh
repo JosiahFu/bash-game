@@ -5,7 +5,9 @@ while true;
     #echo "($x,$y)";
     clear
     echo "Use WASD to move."
-    echo " ----------"
+    #Draw top
+    echo -e "\033[0;31m ----------"
+    #Draw middle
     i=10
     let y y++
     while [ "$i" != "$y" ]
@@ -21,7 +23,7 @@ while true;
       echo -n " "
       let j j++
     done
-    echo -n "O"
+    echo -n -e "\033[0;33mO\033[0;31m"
     let j j++
     while [ "$j" != "10" ]
     do
@@ -36,9 +38,11 @@ while true;
       echo "|          |"
       let i i--
     done
+    #Draw bottom
     let y y--
-     echo " ----------"
+     echo -e " ----------\033[0m"
 
+    #take user input
     read -n 1 -s action
     if [ "$action" == "w" ]; then
       let y y++
