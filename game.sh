@@ -1,55 +1,31 @@
 x=5
 y=5
+screenx=0
+screeny=0
 while true;
   do
     #echo "($x,$y)";
+    let screenx=x+2
+    let screeny=y+3
     clear
     echo "Use WASD to move."
     #Draw top
     echo -e "\033[0;31m ----------"
-    #Draw middle
-    i=10
-    let y y++
-    while [ "$i" != "$y" ]
-    do
+    for i in {0..9}; do
       echo "|          |"
-      let i i--
     done
-
-    echo -n "|"
-    j=0
-    while [ "$j" != "$x" ]
-    do
-      echo -n " "
-      let j j++
-    done
-    echo -n -e "\033[0;33mO\033[0;31m"
-    let j j++
-    while [ "$j" != "10" ]
-    do
-      echo -n " "
-      let j j++
-    done
-    echo "|"
-
-    let i i--
-    while [ "$i" != "0" ]
-    do
-      echo "|          |"
-      let i i--
-    done
-    #Draw bottom
-    let y y--
-     echo -e " ----------\033[0m"
+    echo " ----------"
+    echo -n -e "\033["$screeny";"$screenx"H\033[0;33m0\033[0m"
+    echo -n -e "\033[14;0H"
 
     #take user input
     read -n 1 -s action
-    if [ "$action" == "w" ]; then
+    if [ "$action" == "s" ]; then
       let y y++
       if (( $y > 9 )); then
         y=9
       fi
-    elif [ "$action" == "s" ]; then
+    elif [ "$action" == "w" ]; then
       let y y--
       if (( $y < 0 )); then
         y=0
