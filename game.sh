@@ -15,11 +15,11 @@ while true;
   do
     #echo "($playerx,$playery)";
     clear
-    echo "Use WASD to move."
+    echo "Use WASD to move. Don't touch the X!"
 
     #Draw screen
     #Draw box
-    echo -e "\033[0;31m ----------"
+    echo -e "\033[0;33m ----------"
     for i in {0..9}; do
       echo "|          |"
     done
@@ -31,7 +31,7 @@ while true;
     #Draw enemy
     let screenx=enemyx+2
     let screeny=enemyy+3
-    echo -n -e "\033["$screeny";"$screenx"H\033[0;31mV\033[0m"
+    echo -n -e "\033["$screeny";"$screenx"H\033[0;31mX\033[0m"
     echo -n -e "\033[14;0H"
 
     #take user input
@@ -63,7 +63,7 @@ while true;
       turn=1
       let distx=playerx-enemyx
       let disty=playery-enemyy
-      if(( $distx >= $disty )); then
+      if (( ${distx##*[+-]} >= ${disty##*[+-]} )); then
         if (( $playerx > $enemyx)); then
           let enemyx enemyx++
         elif (( $playerx < $enemyx )); then
