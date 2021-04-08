@@ -1,9 +1,16 @@
 #variables
 turn=0
+score=0
+
 playerx=5
 playery=5
-enemyx=0
-enemyy=0
+
+enemyx=5
+enemyy=2
+
+goalx=5
+goaly=8
+
 distx=0
 disty=0
 screenx=0
@@ -14,24 +21,29 @@ while true;
   do
     #echo "($playerx,$playery)";
     clear
-    echo "Use WASD to move. Don't touch the X!"
+    echo "Use WASD to move. Collect the + and don't touch the X!"
+    echo "Score: $score"
 
     #Draw screen
     #Draw box
-    echo -e "\033[0;33m ----------"
+    echo " ----------"
     for i in {0..9}; do
       echo "|          |"
     done
     echo " ----------"
+    #Draw goal
+    let screenx=goalx+2
+    let screeny=goaly+4
+    echo -n -e "\033["$screeny";"$screenx"H\033[0;32m+\033[0m"
     #Draw player
     let screenx=playerx+2
-    let screeny=playery+3
-    echo -n -e "\033["$screeny";"$screenx"H\033[0;32m0\033[0m"
+    let screeny=playery+4
+    echo -n -e "\033["$screeny";"$screenx"H\033[0;33m0\033[0m"
     #Draw enemy
     let screenx=enemyx+2
-    let screeny=enemyy+3
+    let screeny=enemyy+4
     echo -n -e "\033["$screeny";"$screenx"H\033[0;31mX\033[0m"
-    echo -n -e "\033[14;0H"
+    echo -n -e "\033[15;0H"
     
     #test for lose
     if [ "$playerx" == "$enemyx" ]; then
@@ -88,5 +100,13 @@ while true;
     else
       turn=0
     fi
-  done
 
+    #test for collect
+    if [ "$playerx" == "$goalx" ]; then
+      if [ "$playery" == "$goaly" ]; then
+        let score score++
+        goalx=$(($RANDOM % 10))
+        goaly=$(($RANDOM % 10))
+      fi
+    fi
+  done
