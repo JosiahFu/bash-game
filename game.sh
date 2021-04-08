@@ -47,22 +47,22 @@ while true;
     #take user input
     read -n 1 -s action
     if [ "$action" == "s" ]; then
-      let playery playery++
+      let playery++
       if (( $playery > 9 )); then
         playery=9
       fi
     elif [ "$action" == "w" ]; then
-      let playery playery--
+      let playery--
       if (( $playery < 0 )); then
         playery=0
       fi
     elif [ "$action" == "d" ]; then
-      let playerx playerx++
+      let playerx++
       if (( $playerx > 9 )); then
         playerx=9
       fi
     elif [ "$action" == "a" ]; then
-      let playerx playerx--
+      let playerx--
       if (( $playerx < 0 )); then
         playerx=0
       fi
@@ -76,15 +76,15 @@ while true;
       #get absolute values
       if (( ${distx##*[+-]} >= ${disty##*[+-]} )); then
         if (( $playerx > $enemyx)); then
-          let enemyx enemyx++
+          let enemyx++
         elif (( $playerx < $enemyx )); then
-          let enemyx enemyx--
+          let enemyx--
         fi
       else
         if (( $playery > $enemyy)); then
-          let enemyy enemyy++
+          let enemyy++
         elif (( $playery < $enemyy )); then
-          let enemyy enemyy--
+          let  enemyy--
         fi
       fi
     else
@@ -93,7 +93,7 @@ while true;
 
     #test for collect
     if [[ "$playerx" == "$goalx" && "$playery" == "$goaly" ]]; then
-      let score score++
+      let score++
       goalx=$(($RANDOM % 10))
       goaly=$(($RANDOM % 10))
     fi
