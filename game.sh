@@ -13,8 +13,6 @@ goaly=8
 
 distx=0
 disty=0
-screenx=0
-screeny=0
 
 #main loop
 while true;
@@ -32,26 +30,18 @@ while true;
     done
     echo " ----------"
     #Draw goal
-    let screenx=goalx+2
-    let screeny=goaly+4
-    echo -n -e "\033["$screeny";"$screenx"H\033[0;32m+\033[0m"
+    echo -n -e "\033["$(($goaly + 4))";"$(($goalx + 2))"H\033[0;32m+\033[0m"
     #Draw player
-    let screenx=playerx+2
-    let screeny=playery+4
-    echo -n -e "\033["$screeny";"$screenx"H\033[0;33m0\033[0m"
+    echo -n -e "\033["$(($playery + 4))";"$(($playerx + 2))"H\033[0;33m0\033[0m"
     #Draw enemy
-    let screenx=enemyx+2
-    let screeny=enemyy+4
-    echo -n -e "\033["$screeny";"$screenx"H\033[0;31mX\033[0m"
+    echo -n -e "\033["$(($enemyy + 4))";"$(($enemyx + 2))"H\033[0;31mX\033[0m"
     echo -n -e "\033[15;0H"
     
     #test for lose
-    if [ "$playerx" == "$enemyx" ]; then
-      if [ "$playery" == "$enemyy" ]; then
-        echo Game over
-        sleep 2s
-        break
-      fi
+    if [[ "$playerx" == "$enemyx" && "$playery" == "$enemyy" ]]; then
+      echo Game over
+      sleep 2s
+      break
     fi
     
     #take user input
@@ -102,11 +92,9 @@ while true;
     fi
 
     #test for collect
-    if [ "$playerx" == "$goalx" ]; then
-      if [ "$playery" == "$goaly" ]; then
-        let score score++
-        goalx=$(($RANDOM % 10))
-        goaly=$(($RANDOM % 10))
-      fi
+    if [[ "$playerx" == "$goalx" && "$playery" == "$goaly" ]]; then
+      let score score++
+      goalx=$(($RANDOM % 10))
+      goaly=$(($RANDOM % 10))
     fi
   done
