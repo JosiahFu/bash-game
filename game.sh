@@ -56,22 +56,28 @@ while true;
       let playery++
       if (( $playery > 9 )); then
         playery=9
+        continue
       fi
     elif [ "$action" == "w" ]; then
       let playery--
       if (( $playery < 0 )); then
         playery=0
+        continue
       fi
     elif [ "$action" == "d" ]; then
       let playerx++
       if (( $playerx > 9 )); then
         playerx=9
+        continue
       fi
     elif [ "$action" == "a" ]; then
       let playerx--
       if (( $playerx < 0 )); then
         playerx=0
+        continue
       fi
+    else
+      continue
     fi
     
     #make enemy move
