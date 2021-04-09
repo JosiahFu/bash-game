@@ -14,13 +14,19 @@ goaly=8
 distx=0
 disty=0
 
+#colors
+reset="\033[0m"
+yellow="\033[0;33m"
+red="\033[0;31m"
+green="\033[0;32m"
+
 #main loop
 while true;
   do
     #echo "($playerx,$playery)";
     clear
-    echo "Use WASD to move. Collect the + and don't touch the X!"
-    echo "Score: $score"
+    echo -e "Use WASD to move the ${yellow}0$reset. Collect the $green+$reset and don't touch the ${red}X$reset!"
+    echo -e "Score: $green$score$reset"
 
     #Draw screen
     #Draw box
@@ -30,12 +36,12 @@ while true;
     done
     echo " ----------"
     #Draw goal
-    echo -n -e "\033["$(($goaly + 4))";"$(($goalx + 2))"H\033[0;32m+\033[0m"
+    echo -n -e "\033["$(($goaly + 4))";"$(($goalx + 2))"H${green}+"
     #Draw player
-    echo -n -e "\033["$(($playery + 4))";"$(($playerx + 2))"H\033[0;33m0\033[0m"
+    echo -n -e "\033["$(($playery + 4))";"$(($playerx + 2))"H${yellow}0"
     #Draw enemy
-    echo -n -e "\033["$(($enemyy + 4))";"$(($enemyx + 2))"H\033[0;31mX\033[0m"
-    echo -n -e "\033[15;0H"
+    echo -n -e "\033["$(($enemyy + 4))";"$(($enemyx + 2))"H${red}X"
+    echo -n -e "${reset}\033[15;0H"
     
     #test for lose
     if [[ "$playerx" == "$enemyx" && "$playery" == "$enemyy" ]]; then
