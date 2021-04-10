@@ -5,8 +5,8 @@ score=0
 playerx=5
 playery=5
 
-enemyx=5
-enemyy=2
+enemyx=(2 4 6 8)
+enemyy=(2 2 2 2)
 
 goalx=5
 goaly=8
@@ -40,15 +40,17 @@ while true;
     #Draw player
     echo -n -e "\033["$(($playery + 4))";"$(($playerx + 2))"H${yellow}0"
     #Draw enemy
-    echo -n -e "\033["$(($enemyy + 4))";"$(($enemyx + 2))"H${red}X"
+    for i in {0..3}; do
+      echo -n -e "\033["$((${enemyy[$i]} + 4))";"$((${enemyx[$i]} + 2))"H${red}X"
+    done
     echo -n -e "${reset}\033[15;0H"
     
     #test for lose
-    if [[ "$playerx" == "$enemyx" && "$playery" == "$enemyy" ]]; then
-      echo Game over
-      sleep 2s
-      break
-    fi
+    #if [[ "$playerx" == "$enemyx" && "$playery" == "$enemyy" ]]; then
+    #  echo Game over
+    #  sleep 2s
+    #  break
+    #fi
     
     #take user input
     read -n 1 -s action
@@ -87,15 +89,15 @@ while true;
       let disty=playery-enemyy
       #get absolute values
       if (( ${distx##*[+-]} >= ${disty##*[+-]} )); then
-        if (( $playerx > $enemyx)); then
+        if (( $distx > 0)); then
           let enemyx++
-        elif (( $playerx < $enemyx )); then
+        elif (( $distx < 0)); then
           let enemyx--
         fi
       else
-        if (( $playery > $enemyy)); then
+        if (( $disty > 0)); then
           let enemyy++
-        elif (( $playery < $enemyy )); then
+        elif (( $disty < 0 )); then
           let  enemyy--
         fi
       fi
