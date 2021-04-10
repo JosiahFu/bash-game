@@ -20,6 +20,7 @@ goaly=8
 distx=0
 disty=0
 goalchange=1
+chosenposition=0
 chosendirection=0
 circleposition=0
 circledirection=(+x +y -y +y +x -y -x +x "" "" -x +x -x +y -y +y -x -y)
@@ -138,7 +139,7 @@ while true;
       fi
 
       #enemy 3
-      #if (( goalchange == 1 )); then
+      if (( goalchange == 1 )); then
         let enemy3x=goalx
         let enemy3y=goaly
         while (( enemy3x == goalx && enemy3y == goaly )); do
@@ -146,21 +147,22 @@ while true;
           let enemy3y=goaly+$RANDOM%3-1
         done
         goalchange=0
-      #else
-      #  let distx=playerx-enemy3x
-      #  let disty=playery-enemy3y
-      #  let circleposition=distx+3*disty
-      #  let chosendirection=${circledirection[(($circleposition*2+$RANDOM%2))]}
-      #  if [[ "$chosendirection" == "-x" ]]; then
-      #    let enemy3x--
-      #  elif [[ "$chosendirection" == "+x" ]]; then
-      #    let enemy3x++
-      #  elif [[ "$chosendirection" == "-y" ]]; then
-      #    let enemy3y--
-      #  elif [[ "$chosendirection" == "+y" ]]; then
-      #    let enemy3y++
-      #  fi
-      #fi
+      else
+        let distx=enemy3x-goalx
+        let disty=enemy3y-goaly
+        let circleposition=3*distx+disty+4
+        let chosenposition=$circleposition*2+$RANDOM%2
+        chosendirection=${circledirection[chosenposition]}
+        if [[ "$chosendirection" == "-x" ]]; then
+          let enemy3x--
+        elif [[ "$chosendirection" == "+x" ]]; then
+          let enemy3x++
+        elif [[ "$chosendirection" == "-y" ]]; then
+          let enemy3y--
+        elif [[ "$chosendirection" == "+y" ]]; then
+          let enemy3y++
+        fi
+      fi
     else
       turn=0
     fi
