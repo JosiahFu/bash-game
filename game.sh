@@ -19,6 +19,10 @@ goaly=8
 
 distx=0
 disty=0
+goalchange=1
+chosendirection=0
+circleposition=0
+circledirection=(+x +y -y +y +x -y -x +x "" "" -x +x -x +y -y +y -x -y)
 
 #colors
 reset="\033[0m"
@@ -132,7 +136,31 @@ while true;
           let enemy2y--
         fi
       fi
-      
+
+      #enemy 3
+      #if (( goalchange == 1 )); then
+        let enemy3x=goalx
+        let enemy3y=goaly
+        while (( enemy3x == goalx && enemy3y == goaly )); do
+          let enemy3x=goalx+$RANDOM%3-1
+          let enemy3y=goaly+$RANDOM%3-1
+        done
+        goalchange=0
+      #else
+      #  let distx=playerx-enemy3x
+      #  let disty=playery-enemy3y
+      #  let circleposition=distx+3*disty
+      #  let chosendirection=${circledirection[(($circleposition*2+$RANDOM%2))]}
+      #  if [[ "$chosendirection" == "-x" ]]; then
+      #    let enemy3x--
+      #  elif [[ "$chosendirection" == "+x" ]]; then
+      #    let enemy3x++
+      #  elif [[ "$chosendirection" == "-y" ]]; then
+      #    let enemy3y--
+      #  elif [[ "$chosendirection" == "+y" ]]; then
+      #    let enemy3y++
+      #  fi
+      #fi
     else
       turn=0
     fi
@@ -142,5 +170,6 @@ while true;
       let score++
       goalx=$(($RANDOM % 10))
       goaly=$(($RANDOM % 10))
+      goalchange=1
     fi
   done
