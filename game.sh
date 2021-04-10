@@ -142,7 +142,7 @@ while true;
       if (( goalchange == 1 )); then
         let enemy3x=goalx
         let enemy3y=goaly
-        while (( enemy3x == goalx && enemy3y == goaly )); do
+        while (( enemy3x == goalx && enemy3y == goaly || enemy3x == playerx && enemy3y == playery || enemy3x == 0 || enemy3x == 9 || enemy3y == 0 || enemy3y == 9 )); do
           let enemy3x=goalx+$RANDOM%3-1
           let enemy3y=goaly+$RANDOM%3-1
         done
@@ -155,12 +155,24 @@ while true;
         chosendirection=${circledirection[chosenposition]}
         if [[ "$chosendirection" == "-x" ]]; then
           let enemy3x--
+          if (( enemy3x == -1 )); then
+            let enemy3x++
+          fi
         elif [[ "$chosendirection" == "+x" ]]; then
           let enemy3x++
+          if (( enemy3x == 10 )); then
+            let tnemy3x--
+          fi
         elif [[ "$chosendirection" == "-y" ]]; then
           let enemy3y--
+          if (( enemy3y == -1 )); then
+            let enemy3y++
+          fi
         elif [[ "$chosendirection" == "+y" ]]; then
           let enemy3y++
+          if (( enemy3y == 10 )); then
+            let enemy3y--
+          fi
         fi
       fi
     else
