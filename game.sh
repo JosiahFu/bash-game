@@ -13,6 +13,9 @@ goaly=8
 
 distx=0
 disty=0
+targetx=0
+targety=0
+
 
 #colors
 reset="\033[0m"
@@ -46,11 +49,13 @@ while true;
     echo -n -e "${reset}\033[15;0H"
     
     #test for lose
-    #if [[ "$playerx" == "$enemyx" && "$playery" == "$enemyy" ]]; then
-    #  echo Game over
-    #  sleep 2s
-    #  break
-    #fi
+    for i in {0..3}; do
+      if [[ "$playerx" == "${enemyx[$i]}" && "$playery" == "${enemyy[i]}" ]]; then
+        echo Game over
+        sleep 2s
+        break 2
+      fi
+    done
     
     #take user input
     read -n 1 -s action
@@ -85,22 +90,33 @@ while true;
     #make enemy move
     if (( "$turn" == "0" )); then
       turn=1
-      let distx=playerx-enemyx
-      let disty=playery-enemyy
-      #get absolute values
-      if (( ${distx##*[+-]} >= ${disty##*[+-]} )); then
-        if (( $distx > 0)); then
-          let enemyx++
-        elif (( $distx < 0)); then
-          let enemyx--
+      for i in {0..3}; do
+        let distx=playerx-enemyx[$i]
+        let disty=playery-enemyy[$i]
+        let targetx=enemyx[$i]
+        let targety=enemyy[$i]
+        #get absolute values
+        if (( ${distx##*[+-]} >= ${disty##*[+-]} )); then
+          if (( $distx > 0)); then
+            let targetx++
+          elif (( $distx < 0)); then
+            let targetx--
+          fi
+        else
+          if (( $disty > 0)); then
+            let targety++
+          elif (( $disty < 0 )); then
+            let targety--
+          fi
         fi
-      else
-        if (( $disty > 0)); then
-          let enemyy++
-        elif (( $disty < 0 )); then
-          let  enemyy--
-        fi
-      fi
+        for j in {0..3}; do
+          if (( $targetx == ${enemyx[$j]} && $targety == ${enemyy[$j]} )); then
+            continue 2
+          fi
+        done
+        let enemyx[$i]=targetx
+        let enemyy[$i]=targety
+      done
     else
       turn=0
     fi
