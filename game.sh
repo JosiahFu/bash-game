@@ -5,8 +5,14 @@ score=0
 playerx=5
 playery=5
 
-enemyx=5
-enemyy=2
+enemy1x=5
+enemy1y=2
+
+enemy2x=4
+enemy2y=2
+
+enemy3x=6
+enemy3y=2
 
 goalx=5
 goaly=8
@@ -40,11 +46,13 @@ while true;
     #Draw player
     echo -n -e "\033["$(($playery + 4))";"$(($playerx + 2))"H${yellow}0"
     #Draw enemy
-    echo -n -e "\033["$(($enemyy + 4))";"$(($enemyx + 2))"H${red}X"
+    echo -n -e "\033["$(($enemy1y + 4))";"$(($enemy1x + 2))"H${red}X"
+    echo -n -e "\033["$(($enemy2y + 4))";"$(($enemy2x + 2))"H${red}X"
+    echo -n -e "\033["$(($enemy3y + 4))";"$(($enemy3x + 2))"H${red}X"
     echo -n -e "${reset}\033[15;0H"
     
-    #test for lose
-    if [[ "$playerx" == "$enemyx" && "$playery" == "$enemyy" ]]; then
+    test for lose
+    if [[ "$playerx" == "$enemy1x" && "$playery" == "$enemy1y" || "$playerx" == "$enemy2x" && "$playery" == "$enemy2y" || "$playerx" == "$enemy3x" && "$playery" == "$enemy3y" ]]; then
       echo Game over
       sleep 2s
       break
@@ -83,22 +91,48 @@ while true;
     #make enemy move
     if (( "$turn" == "0" )); then
       turn=1
-      let distx=playerx-enemyx
-      let disty=playery-enemyy
+
+      #enemy 1
+      let distx=playerx-enemy1x
+      let disty=playery-enemy1y
       #get absolute values
       if (( ${distx##*[+-]} >= ${disty##*[+-]} )); then
-        if (( $playerx > $enemyx)); then
-          let enemyx++
-        elif (( $playerx < $enemyx )); then
-          let enemyx--
+        if (( $playerx > $enemy1x)); then
+          let enemy1x++
+        else
+          let enemy1x--
         fi
       else
-        if (( $playery > $enemyy)); then
-          let enemyy++
-        elif (( $playery < $enemyy )); then
-          let  enemyy--
+        if (( $playery > $enemy1y)); then
+          let enemy1y++
+        else
+          let enemy1y--
         fi
       fi
+
+      #enemy 2
+      if (( $(($RANDOM % 2)) == 0 )); then
+        if (( enemy2x == 0 )); then
+          let enemy2x++
+        elif (( enemy2x == 9 )); then
+          let enemy2x--
+        elif (( $(($RANDOM % 2)) == 0 )); then
+          let enemy2x++
+        else
+          let enemy2x--
+        fi
+      else
+        if (( enemy2y == 0 )); then
+          let enemy2y++
+        elif (( enemy2y == 9 )); then
+          let enemy2y--
+        elif (( $(($RANDOM % 2)) == 0 )); then
+          let enemy2y++
+        else
+          let enemy2y--
+        fi
+      fi
+      
     else
       turn=0
     fi
