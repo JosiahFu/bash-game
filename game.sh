@@ -51,7 +51,7 @@ while true;
     echo -n -e "\033["$(($enemy3y + 4))";"$(($enemy3x + 2))"H${red}X"
     echo -n -e "${reset}\033[15;0H"
     
-    test for lose
+    #test for lose
     if [[ "$playerx" == "$enemy1x" && "$playery" == "$enemy1y" || "$playerx" == "$enemy2x" && "$playery" == "$enemy2y" || "$playerx" == "$enemy3x" && "$playery" == "$enemy3y" ]]; then
       echo Game over
       sleep 2s
